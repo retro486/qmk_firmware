@@ -3,14 +3,12 @@
 enum layer_number {
   _BASE = 0,
   _COLEMAK,
-  _FIRST,
-  _SECOND
+  _ALT
 };
 
 // Toggle layers
 #define TG_COLEMAK TG(_COLEMAK)
-#define TT_FIRST TT(_FIRST)
-#define TT_SECOND TT(_SECOND)
+#define TT_ALT TT(_ALT)
 
 // One-shots
 #define OS_LSFT OSM(MOD_LSFT)
@@ -20,19 +18,22 @@ enum tapdances{
   TD_SPENT = 0,
   TD_BDEL,
   TD_ZP,
-  TD_ND
+  TD_ND,
+  TD_LBRB,
 };
 
 #define KC_SPENT  TD(TD_SPENT)
 #define KC_BDEL  TD(TD_BDEL)
 #define KC_ZP TD(TD_ZP)
 #define KC_ND TD(TD_ND)
+#define KC_LBRB TD(TD_LBRB)
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_SPENT] = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_ENT),
   [TD_BDEL] = ACTION_TAP_DANCE_DOUBLE(KC_BSPC, KC_DEL),
   [TD_ZP] = ACTION_TAP_DANCE_DOUBLE(KC_0, KC_EQL),
-  [TD_ND] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_MINS)
+  [TD_ND] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_MINS),
+  [TD_LBRB] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -45,9 +46,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     OS_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    DM_PLY1,           TG_COLEMAK,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+     OS_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    DM_PLY1,          TG_COLEMAK, KC_N,  KC_M,   KC_COMM,  KC_DOT,  KC_SLSH, KC_LBRB,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    DM_REC1, DM_RSTP, TT_SECOND,                 TT_FIRST,KC_SPENT,KC_RALT
+                                    DM_REC1, DM_RSTP,  TT_ALT,                    TT_ALT, KC_SPENT, KC_RALT
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
@@ -65,32 +66,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
-  [_FIRST] = LAYOUT(
+  [_ALT] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                            KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PGUP,
+     KC_TILD,  KC_F1,    KC_F2,  KC_F3,   KC_F4,  _______,                            _______, _______,  KC_F10,  KC_F11,  KC_F12, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     RESET,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_PGDN,
+     KC_GRV,  _______, KC_HOME,  KC_UP,   KC_END, _______,                             KC_P7,   KC_P8,   KC_P9,  _______, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_DEL,  _______, KC_LEFT, KC_RGHT, KC_UP,   KC_LBRC,                            KC_RBRC, KC_P4,   KC_P5,   KC_P6,   KC_PLUS, KC_HOME,
+     _______, KC_PGUP, KC_LEFT, KC_DOWN ,KC_RGHT , KC_PGDN,                             KC_P4,  KC_P5,   KC_P6,  _______, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     BL_STEP, _______, _______, _______, KC_DOWN, KC_LCBR, _______,          KC_RPRN, KC_RCBR, KC_P1,   KC_P2,   KC_P3,   KC_MINS, KC_END,
+     _______, _______, _______, _______, _______, _______, _______,           KC_P0,   KC_P1,   KC_P2,   KC_P3,  _______, _______, _______,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    _______, _______, _______,                    _______,  _______, KC_P0
-                                // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
-  ),
-
-  [_SECOND] = LAYOUT(
-  //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-  //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_TOG, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                            KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-  //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_MOD, KC_MPRV, KC_MNXT, KC_VOLU, KC_PGUP, KC_UNDS,                            KC_EQL,  KC_HOME, RGB_HUI, RGB_SAI, RGB_VAI, _______,
-  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_MUTE, KC_MSTP, KC_MPLY, KC_VOLD, KC_PGDN, KC_MINS, KC_LPRN,          _______, KC_PLUS, KC_END,  RGB_HUD, RGB_SAD, RGB_VAD, _______,
-  //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    _______, _______, _______,                   _______, _______, _______
+                                    _______, _______, _______,                   _______,  _______, _______
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
 };
+
+// TODO implement process_record_user to swap popular shift keys with defaults like [ & { to { & [ (primary { instead of [)
