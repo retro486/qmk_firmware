@@ -29,3 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // max 175ms delay between taps
 #define TAPPING_TERM 175
+
+// Set TT taps to 2 instead of 5
+#define TAPPING_TOGGLE 2
+
+// Set one-shot keys to stay on if double tapped
+#define ONESHOT_TAP_TOGGLE 2
