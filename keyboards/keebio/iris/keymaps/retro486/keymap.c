@@ -8,9 +8,9 @@ enum layer_number {
 };
 
 // Toggle layers
-#define TT_UPPER TT(_SECOND)
-#define TT_LOWER TT(_FIRST)
 #define TG_COLEMAK TG(_COLEMAK)
+#define TT_FIRST TT(_FIRST)
+#define TT_SECOND TT(_SECOND)
 
 // One-shots
 #define OS_LSFT OSM(MOD_LSFT)
@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      OS_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    DM_PLY1,           TG_COLEMAK,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    DM_REC1, DM_RSTP,   TT_UPPER,                    TT_LOWER,  KC_SPENT,   KC_RALT
+                                    DM_REC1, DM_RSTP, TT_SECOND,                 TT_FIRST,KC_SPENT,KC_RALT
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
