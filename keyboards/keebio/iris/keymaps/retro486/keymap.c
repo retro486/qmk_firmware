@@ -14,20 +14,46 @@ enum layer_number {
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_RSFT OSM(MOD_RSFT)
 
+// Purely custom keycodes
+enum custom_keycodes {
+   CTRL_ALT = 0
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case CTRL_ALT:
+      if (record->event.pressed) {
+        // when keycode is pressed
+         // Send control + alt (NOT WORKING)
+         register_code(KC_LALT);
+         register_code(KC_LCTRL);
+      } else {
+        // when keycode is released
+      }
+      break;
+
+  }
+  return true;
+};
+
 // Tap dance
-enum tapdances{
+enum tapdances {
   TD_ZP = 0,
-  TD_LBRB
+  TD_LBRB,
+  TD_CTAL
 };
 
 #define KC_ZP TD(TD_ZP)
 #define KC_LBRB TD(TD_LBRB)
+#define KC_CTAL TD(TD_CTAL)
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_ZP] = ACTION_TAP_DANCE_DOUBLE(KC_0, KC_EQL),
-  [TD_LBRB] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC)
+  [TD_LBRB] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+  [TD_CTAL] = ACTION_TAP_DANCE_DOUBLE(KC_LCTRL, CTRL_ALT)
 };
 
+// Actual keymapping
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_BASE] = LAYOUT(
@@ -36,11 +62,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                               KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+     KC_CTAL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_RALT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MINS,          TG_COLEMAK, KC_N,  KC_M,   KC_COMM,  KC_DOT,  KC_SLSH, KC_LBRB,
+     OS_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MINS,          TG_COLEMAK, KC_N,  KC_M,   KC_COMM,  KC_DOT,  KC_SLSH, OS_RSFT,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    OS_LSFT, TT_ALT,  KC_ENT,                     TT_ALT,  KC_SPC, OS_RSFT
+                                    KC_RALT,  KC_ENT,  TT_ALT,                    TT_ALT,  KC_SPC, KC_LBRB
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
@@ -48,9 +74,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, _______, _______,    KC_F,    KC_P,    KC_G,                               KC_J,    KC_L,    KC_U,    KC_Y,    KC_O, _______,
+     _______, _______, _______,    KC_F,    KC_P,    KC_G,                               KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, _______,    KC_R,    KC_S,    KC_T,    KC_D,                            _______,    KC_N,    KC_E,    KC_I, _______, _______,
+     _______, _______,    KC_R,    KC_S,    KC_T,    KC_D,                            _______,    KC_N,    KC_E,    KC_I,  KC_O,   _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______, _______, _______, _______, _______, _______, _______,          _______,  KC_K,   _______, _______, _______, _______, _______,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -73,5 +99,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 };
-
-// TODO implement process_record_user to swap popular shift keys with defaults like [ & { to { & [ (primary { instead of [)

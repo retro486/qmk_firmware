@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_VAL_STEP 8
 
 // max 175ms delay between taps
-#define TAPPING_TERM 175
+#define TAPPING_TERM 150
 
 // Set TT taps to 2 instead of 5
 #define TAPPING_TOGGLE 2
