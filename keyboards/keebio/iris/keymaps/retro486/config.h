@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+// For v4 (USB-C) only:
+#define SPLIT_USB_DETECT
 // #define USE_I2C
 #define EE_HANDS
 
@@ -28,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_VAL_STEP 8
 
 // max 175ms delay between taps
-#define TAPPING_TERM 150
+#define TAPPING_TERM 175
 
 // Set TT taps to 2 instead of 5
 #define TAPPING_TOGGLE 2
